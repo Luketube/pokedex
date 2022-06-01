@@ -5,8 +5,10 @@
                 <h2 class="nome">{{ dadosPokemon.name }}</h2>
                 <p># {{ numeroDoPokemon +1 }}</p>
             </div>
-
-            <p class="tipo"></p>
+            <div class="tipos_pokemon">
+                <CardTipo v-for="(tipo, index) in dadosPokemon.types" :key="index" :tipoPokemon="dadosPokemon.types[index].type.name" />
+            </div>
+            
         </div>
         <hr class="linha_vertical">
 
@@ -22,8 +24,13 @@
 </template>
 
 <script>
+import CardTipo from './CardTipo.vue'
+
 export default {
-    name: 'CardMenor',
+    name: "CardMenor",
+    components: { 
+        CardTipo 
+    },
     props: {
         numeroDoPokemon: {
             type: Number,
@@ -34,32 +41,26 @@ export default {
         return {
             dadosPokemon: {},
             tipoPokemon: []
-        }
+        };
     },
     methods: {
         async obtemDados() {
-            const url = `https://pokeapi.co/api/v2/pokemon/${this.numeroDoPokemon +1}/`
+            const url = `https://pokeapi.co/api/v2/pokemon/${this.numeroDoPokemon + 1}/`;
             const options = {
-                method: 'GET',
-                mode: 'cors',
+                method: "GET",
+                mode: "cors",
                 headers: {
-                    'content-type': 'application/json;charset=utf-8'
+                    "content-type": "application/json;charset=utf-8"
                 }
-            }
-            fetch(url, options).then(
-                response => response.json()
-            ).then(
-                data => {
-                    this.dadosPokemon = data;
-                    
-                }
-            )
+            };
+            fetch(url, options).then(response => response.json()).then(data => {
+                this.dadosPokemon = data;
+            });
         },
     },
-    beforeMount(){
-        this.obtemDados()
+    beforeMount() {
+        this.obtemDados();
     }
-   
 }
 
 </script>
@@ -96,13 +97,8 @@ export default {
     padding-bottom: 1rem;
 }
 
-.tipo {
-    backdrop-filter: contrast(70%);
-    border: 1px solid #ffffff;
-    border-radius: 8px;
-    font-size: 1rem;
-    padding: .5rem;
-    width: fit-content;
+.tipos_pokemon{
+    display: flex;
 }
 
 .linha_vertical {
