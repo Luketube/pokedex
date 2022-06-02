@@ -32,7 +32,7 @@ export default {
 }
 
 .botao_pesquisa{
-    background-color: #FFF5EE;
+    background-color: #FFFFFF;
     border: none;
     border-radius: 100%;
 }

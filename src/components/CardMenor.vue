@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <CardMenorCorpo :elementoPokemon="tipoPokemon" >
         <div class="informacoes">
             <div class="nome_id">
                 <h2 class="nome">{{ dadosPokemon.name }}</h2>
@@ -19,18 +19,21 @@
         </div>
 
         <hr class="linha_vertical">
-    </div>
+
+    </CardMenorCorpo>
 
 </template>
 
 <script>
 import CardTipo from './CardTipo.vue'
+import CardMenorCorpo from './CardMenorCorpo.vue';
 
 export default {
     name: "CardMenor",
-    components: { 
-        CardTipo 
-    },
+    components: {
+    CardTipo,
+    CardMenorCorpo
+},
     props: {
         numeroDoPokemon: {
             type: Number,
@@ -40,7 +43,7 @@ export default {
     data: function () {
         return {
             dadosPokemon: {},
-            tipoPokemon: []
+            tipoPokemon: '',
         };
     },
     methods: {
@@ -55,6 +58,8 @@ export default {
             };
             fetch(url, options).then(response => response.json()).then(data => {
                 this.dadosPokemon = data;
+                this.tipoPokemon = data.types[0].type.name
+                
             });
         },
     },
@@ -66,20 +71,8 @@ export default {
 </script>
 
 <style scoped>
-.card {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    background-color: #FFB6C1;
-    border: 1px solid #FFFFFF;
-    border-radius: 25px;
-    color: #FFFFFF;
-    margin: 0 1rem;
-    margin-bottom: 1rem;
-    min-width: 235px;
-    padding: 1rem;
-    width: 20%;
-}
+
+
 
 .informacoes {
     width: 100%;

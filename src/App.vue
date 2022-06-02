@@ -6,8 +6,10 @@
   </header>
 
   <main>
-    <CardMenor v-for="(pokemon, index) in listaPokemons" :key="index" :numeroDoPokemon="index"  />
+    <CardMenor v-for="(pokemon, index) in listaPokemons" :key="index" :numeroDoPokemon="index" />
+  
 
+    
   </main>
 
 
@@ -23,11 +25,11 @@ export default {
   components: {
     PesquisaInput,
     CardMenor
-  },
+},
   data: function () {
     return {
       dados: {},
-      totalPokemons: 3,
+      totalPokemons: 898,
       //898 total de pokemons
       listaPokemons: [],
     }
