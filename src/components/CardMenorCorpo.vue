@@ -1,7 +1,7 @@
 <template>
 
 
-    <div class="card" v-bind:class="elementoPokemon">
+    <div class="card_dinamico" v-bind:class="elementoPokemon">
         <slot></slot>
     </div>
 
@@ -20,8 +20,8 @@ export default{
 }
 </script>
 
-<style scoped>
-.card {
+<style>
+.card_dinamico {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -88,6 +88,5 @@ export default{
 .fairy{
     background-color: #EC8FE6;
 }
-
 
 </style>

@@ -1,12 +1,19 @@
 <template>
   <header>
 
-    <PesquisaInput />
+    <PesquisaInput @buscaPokemon="pesquisaPokemon" />
 
   </header>
 
   <main>
-    <CardMenor v-for="(pokemon, index) in listaPokemons" :key="index" :numeroDoPokemon="index" />
+    <div class="cards_pokemon" v-if="!pesquisaAtiva">
+      <CardMenor v-for="(pokemon, index) in listaPokemons" :key="index" :numeroDoPokemon="index" />
+    </div>
+
+    <div class="cards_pokemon" v-if="pesquisaAtiva">
+        <CardPokemon @voltar="reinicia" :idPokemon="numeroPokemon" />
+    </div>
+    
   
 
     
@@ -18,20 +25,23 @@
 <script>
 import PesquisaInput from './components/Pesquisa.vue';
 import CardMenor from './components/CardMenor.vue';
-
+import CardPokemon from './components/CardPokemon.vue';
 
 export default {
   name: 'App',
   components: {
     PesquisaInput,
-    CardMenor
+    CardMenor,
+    CardPokemon
 },
   data: function () {
     return {
       dados: {},
-      totalPokemons: 898,
+      totalPokemons: 6,
       //898 total de pokemons
       listaPokemons: [],
+      pesquisaAtiva: false,
+      numeroPokemon: ''
     }
   },
   methods: {
@@ -60,25 +70,13 @@ export default {
           }
         );
     },
-    obtemDadosPokemon(index){
-      const url = `https://pokeapi.co/api/v2/pokemon/${index +1}/`
-      const options = {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'content-type': 'application/json;charset=utf-8'
-        }
-      }
-
-      fetch(url, options).then(
-        response => response.json()
-      ).then(
-        data => {
-          this.dadosPokemon = data;
-        }
-        
-      )
-
+    pesquisaPokemon(informacao){
+  
+      this.numeroPokemon = informacao;
+      this.pesquisaAtiva = true;
+    },
+    reinicia(){
+      this.pesquisaAtiva = false;
     }
   },
   beforeMount() {
@@ -93,7 +91,7 @@ export default {
   background-color: #FFF5EE;
 }
 
-main {
+.cards_pokemon {
   padding-top: 5rem;
   display: flex;
   flex-wrap: wrap;

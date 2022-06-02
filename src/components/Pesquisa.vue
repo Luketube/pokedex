@@ -1,14 +1,27 @@
 <template>
     <nav class="campo_pesquisa">
-        <input class="input_pesquisa" type="text" placeholder="Digite o nome do Pokemon">
-        <button class="botao_pesquisa"><img src="../assets/lupa.png" alt="Icone de lupa"></button>
+        <input v-model="pesquisa" class="input_pesquisa" type="text" placeholder="Digite o nome do Pokemon">
+        <button @click="obtemPesquisa" class="botao_pesquisa"><img src="../assets/lupa.png" alt="Icone de lupa"></button>
     </nav>
 
 </template>
 
 <script>
 export default {
-    name: 'PesquisaInput'
+    name: 'PesquisaInput',
+    data: function (){
+        return{
+            pesquisa: ''
+        }
+    },
+    emits:[
+        'buscaPokemon'
+    ],
+    methods: {
+        obtemPesquisa(){
+            this.$emit('buscaPokemon', this.pesquisa)
+        }
+    }
 }
 
 

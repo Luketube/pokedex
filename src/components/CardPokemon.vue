@@ -1,42 +1,93 @@
 <template>
+    <CardMenorCorpo :elementoPokemon="elementoPrincipal">
+        <nav class="card_header">
+            <button @click="voltarPagina" class="botao_voltar" v-bind:class="elementoPrincipal" ><img src="../assets/arrow.png" alt="Icone voltar"></button>
+            <p class="index_pokemon"># {{ idPokemon }}</p>
+        </nav>
+        <div class="nome_tipo">
+            <h2 class="nome_pokemon">{{ dadosPokemon.name }}</h2>
+            <div class="tipo_pokemon">
+                <CardTipoMaior v-for="(tipo, index) in dadosPokemon.types" :key="index" :tipoPokemon="dadosPokemon.types[index].type.name" />
+            </div>
+        </div>
+        <hr class="linha_vertical">
+        <img class="imagem_pokemon"
+            v-bind:src="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + idPokemon + '.png'"
+            alt="Imagem do pokemon">
+        <hr class="linha_vertical">
+        <div class="informacoes">
+            <div class="informacoes_linha">
+                <p class="informacoes_fixo">Altura:</p>
+                <p>{{ (parseInt(dadosPokemon.height) / 10).toFixed(2) }} m</p>
+            </div>
+            <div class="informacoes_linha">
+                <p class="informacoes_fixo">Peso:</p>
+                <p>{{ (parseInt(dadosPokemon.weight) / 10).toFixed(2) }} Kg</p>
+            </div>
+        </div>
 
-<div class="card">
-    <nav class="card_header">
-        <button class="botao_voltar"><img src="../assets/arrow.png" alt="Icone voltar"></button>
-        <p class="index_pokemon">#35</p>
-    </nav>
-    <div class="nome_tipo">
-        <h2 class="nome_pokemon">Clefairy</h2>
-        <p class="tipo_pokemon">Fada</p>
-    </div>
-    <hr class="linha_vertical">
-    <img class="imagem_pokemon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png" alt="Imagem do pokemon">
-    <hr class="linha_vertical">
-    <div class="informacoes">
-        <div class="informacoes_linha">
-            <p class="informacoes_fixo">Altura:</p> 
-            <p>182,88</p>
-        </div>
-        <div class="informacoes_linha">
-            <p class="informacoes_fixo">Peso:</p>
-            <p>75 Kg</p>
-        </div>
-    </div>
-</div>
+    </CardMenorCorpo>
 
 </template>
 
 <script>
+import CardMenorCorpo from './CardMenorCorpo.vue'
+import CardTipoMaior from './CardTipoMaior.vue';
 export default {
-    name: 'CardPokemon'
+    name: "CardPokemon",
+    components: {
+    CardMenorCorpo,
+    CardTipoMaior
+},
+    data: function () {
+        return {
+            dadosPokemon: {},
+            elementoPrincipal: '',
+        };
+    },
+    props: {
+        idPokemon:{
+            type: String,
+            required: true
+        }
+    },
+    emits:[
+        'voltar'
+    ],
+    methods: {
+        obtemDadosPokemon(){
+            const url = `https://pokeapi.co/api/v2/pokemon/${this.idPokemon}`
+            const options = {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    "content-type": "application/json;charset=utf-8"
+                }
+            };
+            fetch(url, options).then(
+                response => response.json()
+            ).then(
+                data => {
+                    this.dadosPokemon = data;
+                    this.elementoPrincipal = data.types[0].type.name;
+                }
+            )
+        },
+        voltarPagina(){
+            this.$emit('voltar')
+        }
+    },
+    beforeMount() {
+        this.obtemDadosPokemon();
+    }
+
 }
 
 </script>
 
-<style scoped>
-.card{
+<style>
+.card {
     align-items: center;
-    background-color: #FFB6C1;
     border: 2px solid #333333;
     border-radius: 16px;
     color: #ffffff;
@@ -46,7 +97,7 @@ export default {
     width: 20%;
 }
 
-.card_header{
+.card_header {
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -56,59 +107,51 @@ export default {
 
 .botao_voltar{
     border: none;
-    background-color: #FFB6C1;
 }
-.botao_voltar:hover{
+.botao_voltar:hover {
     cursor: pointer;
 }
 
-.index_pokemon{
+.index_pokemon {
     font-size: 2rem;
 }
 
-.nome_tipo{
+.nome_tipo {
     width: 100%;
 }
 
-.nome_pokemon{
-    font-size: 2rem;
+.nome_pokemon {
+    font-size: 2.5rem;
     padding-bottom: .5rem;
 }
 
-.tipo_pokemon{
-    backdrop-filter: contrast(70%);
-    border: 1px solid #ffffff;
-    border-radius: 8px;
-    font-size: 1.5rem;
-    padding: .5rem;
-    width: fit-content;
-    
+.tipo_pokemon {
+    display: flex;
 }
 
-.imagem_pokemon{
+.imagem_pokemon {
     width: 90%;
 }
 
-.linha_vertical{
+.linha_vertical {
     width: 100%;
     border: 1px solid #ffffff;
 }
 
-.informacoes{
+.informacoes {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     width: 100%;
 }
 
-.informacoes_fixo{
+.informacoes_fixo {
     width: 9rem;
 }
 
-.informacoes_linha{
+.informacoes_linha {
     display: flex;
     padding: 0 0 1rem 1rem;
     font-size: 1.75rem;
 }
-
 </style>
