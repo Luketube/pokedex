@@ -37,7 +37,7 @@ export default {
   data: function () {
     return {
       dados: {},
-      totalPokemons: 6,
+      totalPokemons: 898,
       //898 total de pokemons
       listaPokemons: [],
       pesquisaAtiva: false,
