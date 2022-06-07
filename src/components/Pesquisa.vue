@@ -1,6 +1,6 @@
 <template>
     <nav class="campo_pesquisa">
-        <input v-model="pesquisa" class="input_pesquisa" type="text" placeholder="Digite o nome do Pokemon">
+        <input v-model="pesquisa" class="input_pesquisa" type="text" placeholder="Digite o nome ou número do Pokemon">
         <button @click="obtemPesquisa" class="botao_pesquisa"><img src="../assets/lupa.png" alt="Icone de lupa"></button>
     </nav>
 
