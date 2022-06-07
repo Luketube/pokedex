@@ -11,7 +11,7 @@
     </div>
 
     <div class="cards_pokemon" v-if="pesquisaAtiva">
-        <CardPokemon @voltar="reinicia" :idPokemon="numeroPokemon" />
+        <CardPokemon @voltar="reinicia" :pokemon="numeroPokemon" />
     </div>
     
   

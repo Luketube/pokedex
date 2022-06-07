@@ -12,7 +12,7 @@
         </div>
         <hr class="linha_vertical">
         <img class="imagem_pokemon"
-            v-bind:src="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + idPokemon + '.png'"
+            v-bind:src="imagemPokemon"
             alt="Imagem do pokemon">
         <hr class="linha_vertical">
         <div class="informacoes">
@@ -43,10 +43,12 @@ export default {
         return {
             dadosPokemon: {},
             elementoPrincipal: '',
+            imagemPokemon: '',
+            idPokemon: ''
         };
     },
     props: {
-        idPokemon:{
+        pokemon:{
             type: String,
             required: true
         }
@@ -56,7 +58,7 @@ export default {
     ],
     methods: {
         obtemDadosPokemon(){
-            const url = `https://pokeapi.co/api/v2/pokemon/${this.idPokemon}`
+            const url = `https://pokeapi.co/api/v2/pokemon/${this.pokemon}`
             const options = {
                 method: 'GET',
                 mode: 'cors',
@@ -70,6 +72,8 @@ export default {
                 data => {
                     this.dadosPokemon = data;
                     this.elementoPrincipal = data.types[0].type.name;
+                    this.imagemPokemon = data.sprites.front_default;
+                    this.idPokemon = data.id;
                 }
             )
         },
