@@ -7,7 +7,7 @@
 
   <main>
     <div class="cards_pokemon" v-if="!pesquisaAtiva">
-      <CardMenor v-for="(pokemon, index) in listaPokemons" :key="index" :numeroDoPokemon="index" />
+      <CardMenor v-for="(pokemon, index) in listaPokemons" :key="index" :numeroDoPokemon="index" @click="carregaCardMaior(index)" />
     </div>
 
     <div class="cards_pokemon" v-if="pesquisaAtiva">
@@ -77,6 +77,11 @@ export default {
     },
     reinicia(){
       this.pesquisaAtiva = false;
+    },
+    carregaCardMaior(index){
+      const indexPokemon = index +1;
+
+      this.pesquisaPokemon(indexPokemon);
     }
   },
   beforeMount() {
